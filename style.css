@@ -1,0 +1,678 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2196F3;
+    --dark-color: #333;
+    --light-color: #f4f4f4;
+    --danger-color: #dc3545;
+    --success-color: #28a745;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --light-accent: #e8f1fd; /* Very light blue */
+    --dark-text: #333;
+    --light-text: #666;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 3rem;
+    --radius: 6px;
+}
+
+body {
+    font-family: 'Heebo', sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+    direction: rtl;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: var(--spacing-sm);
+}
+
+p {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+a:hover {
+    color: #3a8e3d;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.guide-image {
+    max-width: 60%;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.guide-image:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+.site-header {
+    background-color: white;
+    box-shadow: var(--shadow);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.main-nav ul {
+    display: flex;
+}
+
+.main-nav li {
+    margin-right: 20px;
+}
+
+.main-nav a {
+    font-weight: 500;
+    padding: 10px 0;
+    position: relative;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--dark-color);
+    margin-bottom: 5px;
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(to left, #4CAF50, #2196F3);
+    color: white;
+    text-align: center;
+    padding: 120px 0 80px;
+    margin-top: 60px;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hero-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: white;
+    color: var(--primary-color);
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Anchor Navigation */
+.anchor-nav {
+    background-color: white;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 70px;
+    z-index: 900;
+}
+
+.anchor-nav ul {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.anchor-nav li {
+    margin: 0 15px;
+}
+
+.anchor-nav a {
+    font-weight: 500;
+    padding: 5px 15px;
+    border-radius: 20px;
+    transition: var(--transition);
+}
+
+.anchor-nav a:hover, .anchor-nav a.active {
+    background-color: var(--light-color);
+}
+
+/* Main Content */
+.main-content {
+    padding: 60px 0;
+}
+
+.step-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
+.step-content {
+    padding: 30px;
+}
+
+.step-section h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.step-section h3 {
+    font-size: 1.4rem;
+    margin: 25px 0 15px;
+    color: var(--dark-color);
+}
+
+.step-section p, .step-section ul, .step-section ol {
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.step-section ul, .step-section ol {
+    padding-right: 20px;
+}
+
+.step-section ul li, .step-section ol li {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.step-section ul li::before {
+    content: '•';
+    color: var(--primary-color);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-right: -1em;
+}
+
+.tip {
+    background-color: #e1f5fe;
+    border-right: 4px solid var(--secondary-color);
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.image-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    border: 1px solid #e0e0e0;
+}
+
+/* FAQ Section */
+.faq-section {
+    background-color: #f5f5f5;
+    padding: 60px 0;
+}
+
+.faq-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: var(--dark-color);
+}
+
+.accordion {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.accordion-item {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.accordion-header:hover {
+    background-color: #f9f9f9;
+}
+
+.accordion-header h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.accordion-icon {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(45deg);
+}
+
+.accordion-content {
+    display: none;
+    padding: 0 20px 20px;
+}
+
+.accordion-item.active .accordion-content {
+    display: block;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(to left, #4CAF50, #2196F3);
+    color: white;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 40px 0;
+}
+
+.site-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-info p {
+    opacity: 0.8;
+}
+
+.footer-links ul {
+    display: flex;
+}
+
+.footer-links li {
+    margin-right: 20px;
+}
+
+.footer-links a {
+    color: white;
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .site-header .container {
+        flex-direction: column;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-nav li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .main-nav.active {
+        display: block;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section h2 {
+        font-size: 1.2rem;
+    }
+
+    .anchor-nav ul {
+        flex-wrap: wrap;
+    }
+
+    .site-footer .container {
+        flex-direction: column;
+    }
+
+    .footer-info {
+        margin-bottom: 20px;
+    }
+
+    .footer-links ul {
+        justify-content: center;
+    }
+}
+
+/* עיצוב מיוחד עבור תמונות המדריך */
+.guide-image {
+    transition: transform 0.3s ease;
+    max-width: 60%;
+}
+
+.guide-image:hover {
+    transform: scale(1.02);
+}
+
+/* עיצוב חלקי הצעדים */
+.step-section {
+    position: relative;
+    border-radius: 15px;
+    border-top: 5px solid var(--primary-color);
+}
+
+.step-section::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+    box-shadow: var(--shadow);
+}
+
+#step1::before {
+    content: "1";
+}
+
+#step2::before {
+    content: "2";
+}
+
+#step3::before {
+    content: "3";
+}
+
+#step4::before {
+    content: "4";
+}
+
+#step5::before {
+    content: "5";
+}
+
+/* אנימציות נחמדות */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.step-section {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* שיפורים לנראות קוד */
+code {
+    background-color: #f5f5f5;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+    font-size: 0.9em;
+}
+
+pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 15px 0;
+}
+
+/* עיצוב לתמונות הדרכה בפופאפ */
+.image-container {
+    cursor: pointer;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-content {
+    max-width: 90%;
+    max-height: 90%;
+    position: relative;
+}
+
+.popup-image {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+}
+
+.popup-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* קישורים מודגשים בתפריט */
+.main-nav a.active {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.main-nav a.active::after {
+    width: 100%;
+}
+
+/* כפתורים נחמדים */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    transition: var(--transition);
+    font-weight: 500;
+    margin: 5px;
+}
+
+.btn:hover {
+    background-color: #3a8e3d;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #0c7cd5;
+}
+
+/* התאמות נוספות לתצוגה ניידת */
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 100px 0 60px;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .step-content {
+        padding: 20px 15px;
+    }
+    
+    .cta-button {
+        padding: 10px 20px;
+    }
+}
+
+/* משפץ את האקורדיון */
+.accordion-header h3 {
+    flex: 1;
+}
+
+/* עיצוב לטיפים */
+.tip {
+    position: relative;
+    padding-right: 35px;
+}
+
+.tip::before {
+    content: "💡";
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    font-size: 20px;
+} 

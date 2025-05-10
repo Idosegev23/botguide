@@ -1,0 +1,385 @@
+/* עיצוב כללי */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2196F3;
+    --bot-message-bg: #e1f5fe;
+    --user-message-bg: #e8f5e9;
+    --light-bg: #f5f5f5;
+    --dark-text: #333;
+    --light-text: #666;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Heebo', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    direction: rtl;
+    color: var(--dark-text);
+}
+
+/* מיכל הצ'אט */
+.chat-container {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 750px;
+    height: 90vh;
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* חלק עליון של הצ'אט */
+.chat-header {
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.chat-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.chat-header p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* אזור ההודעות */
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: var(--light-bg);
+}
+
+/* עיצוב ההודעות */
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+.user-message {
+    align-self: flex-end;
+    margin-right: auto;
+}
+
+.bot-message {
+    align-self: flex-start;
+    margin-left: auto;
+}
+
+.message-content {
+    padding: 12px 18px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.user-message .message-content {
+    background-color: var(--user-message-bg);
+    border-bottom-left-radius: 5px;
+}
+
+.bot-message .message-content {
+    background-color: var(--bot-message-bg);
+    border-bottom-right-radius: 5px;
+}
+
+.message-content p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* השעה של ההודעה */
+.message-time {
+    font-size: 0.7rem;
+    color: var(--light-text);
+    margin-top: 5px;
+    align-self: flex-end;
+}
+
+/* אזור הקלט */
+.chat-input {
+    display: flex;
+    padding: 15px;
+    background-color: white;
+    border-top: 1px solid #eee;
+}
+
+.chat-input input {
+    flex: 1;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 30px;
+    background-color: #f1f1f1;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.chat-input input:focus {
+    outline: none;
+    background-color: #e6e6e6;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.chat-input button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.chat-input button:hover {
+    background-color: #3a8e3d;
+    transform: scale(1.05);
+}
+
+.chat-input button svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* כפתור ניקוי שיחה */
+.chat-footer {
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.chat-footer button {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.chat-footer button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* אנימציה להודעות */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message {
+    animation: fadeIn 0.3s ease;
+}
+
+/* סמן טעינה */
+.typing-indicator {
+    padding: 12px 18px;
+    background-color: var(--bot-message-bg);
+    border-radius: 18px;
+    border-bottom-right-radius: 5px;
+    display: inline-block;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    float: right;
+    margin: 0 3px;
+    background-color: var(--secondary-color);
+    display: block;
+    border-radius: 50%;
+    opacity: 0.4;
+}
+
+.typing-indicator span:nth-of-type(1) {
+    animation: pulse 1s infinite;
+}
+
+.typing-indicator span:nth-of-type(2) {
+    animation: pulse 1s infinite 0.2s;
+}
+
+.typing-indicator span:nth-of-type(3) {
+    animation: pulse 1s infinite 0.4s;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 0.4; }
+}
+
+/* אייקון עזרה קבוע */
+.help-icon {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+    z-index: 100;
+}
+
+.help-icon:hover {
+    transform: scale(1.1);
+    background-color: #1976D2;
+}
+
+.help-icon svg {
+    width: 30px;
+    height: 30px;
+}
+
+/* תיבת עזרה מהירה */
+.quick-help {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+
+.quick-help.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.quick-help-header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quick-help-header h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.quick-help-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.quick-help-content {
+    padding: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.quick-help-content h4 {
+    margin: 0 0 10px 0;
+    color: var(--dark-text);
+    font-size: 1rem;
+}
+
+.quick-help-content h4:not(:first-child) {
+    margin-top: 20px;
+}
+
+.quick-help-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-help-content li {
+    margin-bottom: 8px;
+}
+
+.quick-help-content a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.quick-help-content a:hover {
+    text-decoration: underline;
+    color: #1976D2;
+}
+
+.help-question {
+    display: block;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+.help-question:hover {
+    background-color: #f0f0f0;
+}
+
+/* התאמה לתצוגה ניידת */
+@media (max-width: 768px) {
+    .chat-container {
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+    
+    .quick-help {
+        width: 280px;
+        bottom: 70px;
+        left: 10px;
+    }
+} 

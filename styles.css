@@ -1,0 +1,73 @@
+/* Navigation update - remove if not needed */
+.anchor-nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.anchor-nav li {
+    margin: 0 10px;
+}
+
+.anchor-nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.anchor-nav a:hover, 
+.anchor-nav a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Tips section styling */
+#tips {
+    background-color: #f9f9f9;
+}
+
+#tips h3 {
+    color: #2c3e50;
+    margin-top: 25px;
+    font-size: 1.4rem;
+}
+
+#tips ul {
+    padding-right: 20px;
+}
+
+#tips .tip {
+    background-color: #e3f2fd;
+    border-right: 5px solid #2196F3;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+/* Expansion section styling */
+#step5 {
+    background-color: #f5f5f5;
+}
+
+#step5 h3 {
+    color: #673AB7;
+    margin-top: 25px;
+    font-size: 1.4rem;
+}
+
+#step5 .image-placeholder {
+    background-color: #e0e0e0;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    border-radius: 8px;
+    color: #616161;
+} 

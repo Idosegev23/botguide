@@ -1,0 +1,29 @@
+# קבצי סביבה
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# קבצי Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# קבצי לוגים
+logs/
+*.log
+
+# קבצי מערכת הפעלה
+.DS_Store
+Thumbs.db
+.directory
+
+# קבצים אחרים שלא נדרשים
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace 
