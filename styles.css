@@ -30,6 +30,51 @@
     box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
 }
 
+/* חדש: עיצוב מעודכן לתפריט */
+.nav-menu {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-item {
+    margin: 0 12px;
+}
+
+.nav-link {
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 0;
+    display: block;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    right: 0;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.nav-link:hover:after {
+    width: 100%;
+}
+
+/* סוף עיצוב חדש לתפריט */
+
 /* Tips section styling */
 #tips {
     background-color: #f9f9f9;

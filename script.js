@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // Add active class to the clicked link
-                document.querySelectorAll('.anchor-nav a, .main-nav a').forEach(link => {
+                document.querySelectorAll('.nav-link, .chat-toggle-button').forEach(link => {
                     link.classList.remove('active');
                 });
-                document.querySelectorAll(`.anchor-nav a[href="${targetId}"], .main-nav a[href="${targetId}"]`).forEach(link => {
+                document.querySelectorAll(`.nav-link[href="${targetId}"], .chat-toggle-button[href="${targetId}"]`).forEach(link => {
                     link.classList.add('active');
                 });
                 
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        document.querySelectorAll('.anchor-nav a, .main-nav a').forEach(anchor => {
+        document.querySelectorAll('.nav-link, .chat-toggle-button').forEach(anchor => {
             anchor.classList.remove('active');
             
             if (currentSection && anchor.getAttribute('href') === currentSection) {
