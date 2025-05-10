@@ -3,139 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>בניית בוט שירות לקוחות ב-AI (WhatsApp Chatbot) - מדריך מלא</title>
-    <meta name="description" content="מדריך פשוט בעברית לבניית בוט שירות לקוחות חכם בוואטסאפ המבוסס על AI, ללא צורך בידע טכני. צעד אחר צעד.">
+    <title>המדריך המלא להקמת בוט WhatsApp בעברית</title>
+    <meta name="description" content="המדריך המלא להקמת בוט WhatsApp - כיצד לבנות בוט לוואטסאפ בקלות מאפס להגדלת המכירות, שיפור השירות וחיסכון בזמן.">
+    <meta name="keywords" content="בוט WhatsApp, WhatsApp API, ChatGPT, OpenAI, Make.com, GreenAPI, בוט לעסקים, בוט צ'אט, בוט אוטומטי">
+    <meta property="og:title" content="המדריך המלא להקמת בוט WhatsApp בעברית">
+    <meta property="og:description" content="למד כיצד לבנות בוט לוואטסאפ בקלות מאפס להגדלת המכירות, שיפור השירות וחיסכון בזמן.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.trivia-roars.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="המדריך המלא להקמת בוט WhatsApp בעברית">
+    <meta name="twitter:description" content="למד כיצד לבנות בוט לוואטסאפ בקלות מאפס להגדלת המכירות, שיפור השירות וחיסכון בזמן.">
+    <link rel="icon" href="favicon.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:title" content="בניית בוט שירות לקוחות ב-AI (WhatsApp Chatbot)">
-    <meta property="og:description" content="מדריך פשוט בעברית לבניית בוט שירות לקוחות חכם בוואטסאפ המבוסס על AI, ללא צורך בידע טכני.">
-    <meta property="og:image" content="public/whatsapp-ai-guide.jpg">
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="">
-    <meta property="twitter:title" content="בניית בוט שירות לקוחות ב-AI (WhatsApp Chatbot)">
-    <meta property="twitter:description" content="מדריך פשוט בעברית לבניית בוט AI לוואטסאפ, צעד אחר צעד.">
-    <meta property="twitter:image" content="public/whatsapp-ai-guide.jpg">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="public/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Page Loader -->
     <div class="page-loader">
-        <div class="loader-circle"></div>
+        <div class="loader-spinner"></div>
         <div class="loader-text">טוען את המדריך...</div>
     </div>
 
-    <!-- Header -->
     <header class="site-header">
         <div class="container">
-            <div class="logo">
-                <h1>בוט גייד</h1>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#openai">מה זה OpenAI</a></li>
-                    <li><a href="#make">הרשמה ל-Make</a></li>
-                    <li><a href="#greenapi">חיבור GreenAPI</a></li>
-                    <li><a href="#scenario">בניית תרחיש</a></li>
-                    <li><a href="#expansion">הרחבה לאתר</a></li>
-                    <li><a href="#tips">טיפים חשובים</a></li>
-                    <li><a href="/chat" class="chat-button">בוט תמיכה</a></li>
-                </ul>
-            </nav>
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="header-content">
+                <div class="logo">
+                    <a href="#">TriRoars</a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#intro">מבוא</a></li>
+                        <li><a href="#step1">שלב 1</a></li>
+                        <li><a href="#step2">שלב 2</a></li>
+                        <li><a href="#step3">שלב 3</a></li>
+                        <li><a href="#step4">שלב 4</a></li>
+                        <li><a href="#step5">שלב 5</a></li>
+                        <li><a href="#tips">טיפים</a></li>
+                    </ul>
+                </nav>
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1>בניית בוט שירות לקוחות ב-AI (WhatsApp Chatbot) צעד-אחר-צעד</h1>
-            <h2>מדריך פשוט בעברית למענה אוטומטי בוואטסאפ עם AI</h2>
-            <div class="hero-buttons">
-                <a href="#step1" class="cta-button">התחילו עכשיו</a>
-                <a href="#faq-section" class="secondary-button">שאלות נפוצות</a>
+            <div class="hero-content">
+                <h1>המדריך המלא להקמת בוט WhatsApp</h1>
+                <p class="hero-subtitle">כיצד להקים בוט חכם לוואטסאפ שישווק, ימכור וייתן שירות ללקוחות - בלי לדעת לתכנת!</p>
+                <div class="hero-features">
+                    <div class="feature">
+                        <div class="feature-icon">🚀</div>
+                        <div class="feature-text">בניית בוט בפחות משעה</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💡</div>
+                        <div class="feature-text">AI מתקדם מבוסס ChatGPT</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💼</div>
+                        <div class="feature-text">הגדלת מכירות ושיפור שירות</div>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#intro" class="btn btn-primary">התחל במדריך</a>
+                    <a href="#step1" class="btn btn-secondary">דלג לשלבי הבנייה</a>
+                </div>
             </div>
-            <div class="hero-features">
-                <div class="feature-item">
-                    <div class="feature-icon">🔧</div>
-                    <div class="feature-text">ללא צורך בידע טכני</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">⏱️</div>
-                    <div class="feature-text">הקמה בפחות משעה</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">💰</div>
-                    <div class="feature-text">התחלה בחינם</div>
+            <div class="hero-image">
+                <div class="image-container">
+                    <img src="https://i.imgur.com/Kmu9vTl.png" alt="בוט WhatsApp - דוגמה לשיחה">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Anchor Navigation -->
-    <nav class="anchor-nav">
-        <div class="container">
-            <ul>
-                <li><a href="#step1">שלב 1</a></li>
-                <li><a href="#step2">שלב 2</a></li>
-                <li><a href="#step3">שלב 3</a></li>
-                <li><a href="#step4">שלב 4</a></li>
-                <li><a href="#step5">שלב 5</a></li>
-                <li><a href="#tips">טיפים חשובים</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Step Sections -->
     <main class="main-content">
         <div class="container">
-            <!-- מבוא -->
-            <section id="intro" class="step-section">
+            <div class="step-section" id="intro">
                 <div class="step-content">
                     <h2>מבוא</h2>
                     <p>במדריך זה נלמד כיצד ליצור צ'אטבוט חכם לשירות לקוחות שיענה אוטומטית להודעות WhatsApp. נשתמש בשלושה כלים עיקריים: OpenAI, Make (לשעבר Integromat) ו-GreenAPI. נסביר בפשטות מהו כל כלי, כיצד לפתוח חשבון בכל אחד (כולל צילומי מסך), ואיך לחבר ביניהם כך שהבוט יקבל הודעה בוואטסאפ, ישלח את השאלה ל-AI (מודל של OpenAI כמו ChatGPT) ויחזיר תשובה אוטומטית לוואטסאפ.</p>
                     <p>לבסוף, נדון כיצד ניתן להרחיב את הפתרון גם לאתר אינטרנט, וניתן טיפים חשובים לפרטיות, אבטחה ושימוש נכון. נדגיש: אין צורך בידע טכני מוקדם – ההסברים יהיו בשפה פשוטה וברורה, עם הגדרת כל מונח טכני בדרך. מוכנים? בואו נתחיל! 😊</p>
                 </div>
-            </section>
+            </div>
 
-            <section id="openai" class="step-section">
-                <div class="step-content">
-                    <h2>מה זה OpenAI?</h2>
-                    <p>OpenAI היא חברה ומעבדת מחקר בתחום הבינה המלאכותית (AI). OpenAI מפורסמת בכך שפיתחה את מודל השפה ChatGPT, שיכול לקיים שיחות ולענות על שאלות באופן דמוי-אנושי. במילים פשוטות, OpenAI פיתחה מוח מלאכותי שמבין טקסט ויכול לספק תשובות ולהמשיך שיחה.</p>
-                    <p>החברה מציעה למפתחים ממשק API – כלומר דרך להתחבר למוח ה-AI שלהם דרך האינטרנט – כדי לשאול את המודל שאלות ולקבל תשובות באופן אוטומטי. במדריך זה נשתמש ב-OpenAI כדי שהבוט שלנו יחשוב ויענה לשאלות המשתמשים. אנחנו נשלח את טקסט השאלה ל-OpenAI, ושם מודל ה-AI (לדוגמה, ChatGPT) יפיק תשובה שנוכל לשלוח בחזרה לשואל.</p>
-                </div>
-            </section>
-
-            <section id="make" class="step-section">
-                <div class="step-content">
-                    <h2>מה זה Make?</h2>
-                    <p>Make היא פלטפורמת אוטומציה קלה לשימוש (No-Code), עם ממשק ויזואלי, המאפשרת לחבר בין אפליקציות ושירותי אינטרנט שונים ולבצע תהליכים אוטומטיים ביניהם. Make (שבעבר נקראה Integromat) מאפשרת ליצור תרחישים (Scenarios) – שהם בעצם תהליכים אוטומטיים המורכבים מטריגר (הפעלת התהליך) ופעולות שנעשות בתגובה.</p>
-                    <p>אפשר לחבר יחד פעולות של מגוון אפליקציות לא כתיבת קוד, באמצעות ממשק גרפי של גרירת רכיבים והגדרת חיבורים. במדריך שלנו נשתמש ב-Make כ"דבק" המחבר בין WhatsApp (דרך GreenAPI) לבין OpenAI. Make תקבל התראה כשמגיעה הודעת WhatsApp חדשה, תעביר את תוכן ההודעה ל-OpenAI, תקבל בחזרה תשובת AI, ותשלח אותה אוטומטית בחזרה בווטסאפ – וכל זאת בתהליך אחד רציף שנגדיר.</p>
-                </div>
-            </section>
-
-            <section id="greenapi" class="step-section">
-                <div class="step-content">
-                    <h2>מה זה GreenAPI?</h2>
-                    <p>GreenAPI הוא שירות שמספק ממשק API ל-WhatsApp – כלומר, דרך לתוכנה לשלוח ולקבל הודעות WhatsApp באופן אוטומטי. GreenAPI אינו שירות רשמי של WhatsApp אלא פתרון חיצוני (לא-רשמי) שמאפשר חיבור של המספר שלכם בוואטסאפ לתהליכי אוטומציה.</p>
-                    <p>בעזרת GreenAPI נוכל לגרום ל-Make "לראות" הודעות נכנסות בוואטסאפ ולשלוח דרכה הודעות תשובה. GreenAPI פועל כך: אתם מתחברים עם חשבון הוואטסאפ שלכם (למשל סריקת קוד QR כמו בווטסאפ Web), ומקבלים מזהה חשבון (ID) וטוקן (סיסמת API). באמצעות הנתונים הללו, Make תוכל לקבל מגיריןAPI התראות על הודעות נכנסות, וגם לבצע שליחה של הודעות החוצה. השירות ידידותי למשתמש, כולל ממשק בעברית, ואף מציע תוכנית חינמית למפתחים להתנסות (מתאים מאוד לשימוש ראשוני ולמידה – פרטים בהמשך).</p>
-                    <div class="tip">
-                        <p>💡 טיפ חשוב: כיוון ש-GreenAPI הוא פתרון לא-רשמי, אין צורך באישור מראש לתבניות הודעה או בתשלום עבור כל הודעה (בניגוד ל-API הרשמי של WhatsApp). עם זאת, ייתכנו מגבלות (למשל, במסלול החינמי אפשר לשלוח הודעות רק לכ-3 מספרי WhatsApp שונים בכל חודש) וחשוב להשתמש בשירות באחריות כדי לא לגרום לחסימת המספר שלכם (נדבר על כך בטיפים בסוף).</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="step1" class="step-section">
+            <div class="step-section" id="step1">
                 <div class="step-content">
                     <h2>שלב 1: פתיחת חשבון OpenAI וקבלת מפתח API</h2>
                     <p><strong>יצירת חשבון OpenAI:</strong> גשו לאתר <a href="https://platform.openai.com" target="_blank">OpenAI</a> (פורטל המפתחים של OpenAI). לחצו על "Sign Up" להרשמה, והשלימו את תהליך פתיחת החשבון באמצעות כתובת אימייל וסיסמה (או כניסה עם חשבון Google/Microsoft לפי האפשרות באתר). פתיחת החשבון היא בחינם. לאחר ההרשמה, ייתכן שתידרשו לאמת את האימייל ואת מספר הטלפון שלכם.</p>
@@ -152,9 +110,9 @@
                         <p>💡 טיפ חשוב: חשבון OpenAI חדש מגיע לרוב עם קרדיט ניסיון חינמי (בדולר) לשימוש ב-API. זה יספיק לניסויים הראשונים. אם תעברו את המכסה, תצטרכו להגדיר אמצעי תשלום בחשבון OpenAI שלכם כדי להמשיך להשתמש ב-API. עלויות השימוש בדרך כלל מחושבות לפי כמות התווים (tokens) שנשלחים ונענים.</p>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="step2" class="step-section">
+            <div class="step-section" id="step2">
                 <div class="step-content">
                     <h2>שלב 2: הרשמה ל-Make (Integromat)</h2>
                     <p><strong>יצירת חשבון Make:</strong> בקרו באתר <a href="https://www.make.com" target="_blank">Make</a> ולחצו על כפתור "Get started free" (התחילו בחינם) להרשמה. תוכלו להירשם עם כתובת אימייל וסיסמה או באמצעות חשבון גוגל. ההרשמה בסיסית ודורשת אימות אימייל. ל-Make יש תוכנית חינמית ללא צורך בכרטיס אשראי, שמתאימה כדי להתחיל (ומאפשרת כ-1,000 פעולות בחודש בחינם, נכון לכתיבת שורות אלו).</p>
@@ -167,9 +125,9 @@
                         <p>💡 טיפ חשוב: אם אתם מתחילים עם Make, אל תתפתו להתחיל מתבניות מוכנות (Templates). במדריך זה נבנה תרחיש מאפס כדי להבין היטב איך כל חלק עובד.</p>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="step3" class="step-section">
+            <div class="step-section" id="step3">
                 <div class="step-content">
                     <h2>שלב 3: הרשמה והגדרת GreenAPI (חיבור מספר וואטסאפ)</h2>
                     <p><strong>פתיחת חשבון GreenAPI:</strong> גשו לאתר <a href="https://console.green-api.com/" target="_blank">GreenAPI Console</a> והירשמו (Sign Up) עם האימייל שלכם. ניתן גם לגשת דרך האתר <a href="https://green-api.org.il" target="_blank">בעברית</a> – המערכת תומכת בעברית. לאחר הרשמה ואימות אימייל, התחברו לממשק.</p>
@@ -195,9 +153,9 @@
                         <p>💡 טיפ חשוב: השאירו את חיבור הוואטסאפ פעיל בכל עת שבה אתם רוצים שהבוט יפעל. אם ההתחברות תתנתק (למשל, אם תחברו את אותו מספר וואטסאפ למכשיר אחר), הבוט לא יוכל לקבל או לשלוח הודעות עד שתחברו אותו מחדש.</p>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="step4" class="step-section">
+            <div class="step-section" id="step4">
                 <div class="step-content">
                     <h2>שלב 4: בניית תרחיש ב-Make</h2>
                     <p>בשלב זה נחבר את כל הכלים יחד ליצירת בוט אוטומטי. הרעיון המרכזי של הפתרון: הודעה נכנסת בוואטסאפ תפעיל אוטומציה ב-Make (באמצעות GreenAPI). האוטומציה תיקח את תוכן ההודעה, תשלח אותו ל-OpenAI (למודל שפה חכם), תקבל ממנו תשובה, ולבסוף תשלח את התשובה בחזרה לשולח בוואטסאפ. כל זה קורה תוך שניות ספורות וללא התערבות ידנית.</p>
@@ -315,9 +273,9 @@
                         <img src="public/makelive.png" alt="הפעלת התרחיש והשלמת התרחיש" class="guide-image">
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="step5" class="step-section">
+            <div class="step-section" id="step5">
                 <div class="step-content">
                     <h2>שלב 5: הרחבת הבוט לאתר האינטרנט שלכם</h2>
                     <p>לאחר שהבוט פועל בוואטסאפ, טבעי לרצות שימוש דומה גם בערוצים אחרים, למשל באתר החברה שלכם או באפליקציה. הבשורה הטובה היא שהארכיטקטורה דומה – גם כאן נרצה לקחת שאלות משתמשים (מאתר) ולהשיב להן בעזרת OpenAI. קיימות מספר דרכים להרחיב את הבוט שיצרנו לאתר האינטרנט שלכם:</p>
@@ -360,10 +318,9 @@
                     
                     <p>הרחבת הבוט לאתר היא אפשרית ומומלצת אם קהל הלקוחות שלכם משתמש גם באתר. בעזרת Make, אפשר אפילו להשתמש באותו מודול OpenAI שכבר חיברנו, רק לשנות את הטריגר. שימו לב שבממשקי אתר/אפליקציה, בניגוד לוואטסאפ, צריך לחשוב איך להציג את התשובה למשתמש – זה דורש עבודה בצד ה-Front End, אבל הרעיון המרכזי זהה.</p>
                 </div>
-            </section>
+            </div>
 
-            <!-- טיפים חשובים -->
-            <section id="tips" class="step-section">
+            <div class="step-section" id="tips">
                 <div class="step-content">
                     <h2>שלב 6: טיפים חשובים - פרטיות, אבטחה ושימוש נכון</h2>
                     <p>לאחר שהכרנו את כל השלבים ליצירת הבוט, חשוב להתייחס לכמה נקודות מפתח כדי להשתמש בבוט בצורה אחראית ובטוחה, הן עבורכם והן עבור המשתמשים:</p>
@@ -421,7 +378,6 @@
                         <p>💡 טיפ חשוב: בנינו יחד צ'אטבוט AI לווטסאפ בעזרת OpenAI (המוח), GreenAPI (השליח שמחבר לוואטסאפ) ו-Make (תשתית האוטומציה שמחברת הכל). תוך כדי, ראיתם שאין צורך בכתיבת קוד כלל – רק בחשיבה לוגית והגדרת השלבים הנכונים. הבוט הזה יכול לחסוך זמן במתן תשובות ללקוחות, לספק מידע 24/7 ולשפר את זמינות השירות שלכם.</p>
                     </div>
 
-                    <!-- גיבוי למקרה של בעיה עם תמונות שלא ממוקמות נכון -->
                     <h3>בדיקת הבוט</h3>
                     <p>לאחר שהפעלתם את התרחיש, הבוט שלכם אמור לעבוד מיד! בדקו זאת על ידי שליחת הודעת טקסט למספר הוואטסאפ שחיברתם ל-GreenAPI. הבוט יענה אוטומטית בתשובה שנוצרה על ידי OpenAI (ChatGPT).</p>
 
@@ -435,11 +391,10 @@
 
                     <div class="warning">
                 </div>
-            </section>
+            </div>
         </div>
     </main>
 
-    <!-- FAQ Section -->
     <section class="faq-section">
         <div class="container">
             <h2>שאלות נפוצות</h2>
@@ -493,7 +448,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
             <h2>מוכנים להתחיל לבנות את הבוט החכם שלכם?</h2>
@@ -502,7 +456,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
             <div class="footer-info">
@@ -518,11 +471,42 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="components/Step.js"></script>
+    <div id="floating-chat-icon" class="floating-chat-icon" aria-label="תמיכה">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </div>
+
+    <div id="floating-chat-container" class="floating-chat-container">
+        <div class="chat-header">
+            <h3>בוט התמיכה שלנו</h3>
+            <button id="minimize-chat" class="minimize-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    <p>שלום! אני בוט התמיכה של TriRoars. כיצד אוכל לעזור לך בנוגע להקמת בוט WhatsApp?</p>
+                </div>
+                <div class="message-time">
+                    <!-- זמן יתעדכן דינמית -->
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="user-input" placeholder="הקלד את ההודעה שלך כאן..." autocomplete="off">
+            <button id="send-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
-    
-    <!-- אפשרות להוסיף את הדוגמה לשימוש בקומפוננטה (אופציונלי) -->
-    <!-- <script src="components/example.js"></script> -->
 </body>
 </html> 

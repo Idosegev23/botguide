@@ -47,5 +47,12 @@
       "src": "/public/(.*)",
       "dest": "/public/$1"
     }
+  ],
+  "rewrites": [
+    { "source": "/chat", "destination": "/public/index.html" },
+    { "source": "/api/chat", "destination": "/api/support-bot.js" },
+    { "source": "/styles.css", "destination": "/public/styles.css" },
+    { "source": "/script-bot.js", "destination": "/public/script.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 } 

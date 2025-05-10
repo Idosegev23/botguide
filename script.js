@@ -341,4 +341,158 @@ document.addEventListener('DOMContentLoaded', function() {
             backToTopButton.classList.remove('visible');
         }
     });
+
+    // הפעלת בוט הצ'אט הצף
+    const floatingChatIcon = document.getElementById('floating-chat-icon');
+    const floatingChatContainer = document.getElementById('floating-chat-container');
+    const minimizeChatButton = document.getElementById('minimize-chat');
+    const chatInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
+
+    // יצירת מזהה משתמש ייחודי (UUID)
+    function generateUserId() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    // שמירת מזהה המשתמש ב-localStorage או יצירת חדש אם לא קיים
+    let userId = localStorage.getItem('chatUserId');
+    if (!userId) {
+        userId = generateUserId();
+        localStorage.setItem('chatUserId', userId);
+    }
+
+    // פתיחה וסגירה של ממשק הצ'אט
+    floatingChatIcon.addEventListener('click', () => {
+        floatingChatContainer.classList.add('active');
+        chatInput.focus();
+    });
+
+    minimizeChatButton.addEventListener('click', () => {
+        floatingChatContainer.classList.remove('active');
+    });
+
+    // הוספת הודעה לממשק הצ'אט
+    function addChatMessage(text, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        
+        const messageParagraph = document.createElement('p');
+        messageParagraph.textContent = text;
+        messageContent.appendChild(messageParagraph);
+        
+        const messageTime = document.createElement('div');
+        messageTime.className = 'message-time';
+        const now = new Date();
+        messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        
+        messageDiv.appendChild(messageContent);
+        messageDiv.appendChild(messageTime);
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // גלילה לתחתית הצ'אט
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // הצגת סמן 'מקליד'
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.id = 'typing-indicator';
+        
+        // הוספת שלוש נקודות לאנימציה
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement('span');
+            typingDiv.appendChild(dot);
+        }
+        
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // הסרת סמן 'מקליד'
+    function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    // שליחת הודעה לשרת וקבלת תשובה
+    async function sendChatMessage(message) {
+        try {
+            showTypingIndicator();
+            
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message,
+                    userId: userId
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('בעיה בתקשורת עם השרת');
+            }
+            
+            const data = await response.json();
+            removeTypingIndicator();
+            
+            if (data.response) {
+                addChatMessage(data.response, false);
+            } else {
+                addChatMessage('מצטער, לא הצלחתי לקבל תשובה. אנא נסה שוב.', false);
+            }
+        } catch (error) {
+            console.error('שגיאה בשליחת ההודעה:', error);
+            removeTypingIndicator();
+            addChatMessage('אירעה שגיאה בתקשורת עם השרת. אנא נסה שוב מאוחר יותר.', false);
+        }
+    }
+
+    // טיפול בשליחת הודעה
+    function handleSendChatMessage() {
+        const message = chatInput.value.trim();
+        
+        if (message) {
+            addChatMessage(message, true);
+            chatInput.value = '';
+            sendChatMessage(message);
+        }
+    }
+
+    // האזנה לאירועים
+    sendButton.addEventListener('click', handleSendChatMessage);
+    
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleSendChatMessage();
+        }
+    });
+
+    // טיפול במקרה של לחיצה במקום אחר בעמוד
+    document.addEventListener('click', (e) => {
+        // סגירת הצ'אט אם לחצו מחוץ לאזור הצ'אט ולא על הכפתור
+        if (floatingChatContainer.classList.contains('active') && 
+            !floatingChatContainer.contains(e.target) && 
+            e.target !== floatingChatIcon && 
+            !floatingChatIcon.contains(e.target)) {
+            floatingChatContainer.classList.remove('active');
+        }
+    });
+
+    // מנע התפשטות האירוע כשלוחצים בתוך הצ'אט
+    floatingChatContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 }); 
