@@ -33,21 +33,25 @@
 /* חדש: עיצוב מעודכן לתפריט */
 .nav-menu {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     margin: 0;
     padding: 0;
-    list-style: none;
 }
 
 .nav-menu a {
     color: #2c3e50;
     font-size: 16px;
     font-weight: 500;
-    padding: 8px 15px;
-    margin: 0 5px;
-    display: block;
+    padding: 8px 12px;
+    margin: 0 3px;
+    display: inline-block;
     position: relative;
     text-decoration: none;
     transition: color 0.3s ease;
+    white-space: nowrap;
 }
 
 .nav-menu a:after {
@@ -73,7 +77,35 @@
 /* סוף עיצוב חדש לתפריט */
 
 /* התאמה למובייל עבור התפריט החדש */
+@media (max-width: 992px) {
+    .site-header .container {
+        flex-wrap: wrap;
+    }
+    
+    .logo {
+        margin-bottom: 10px;
+    }
+    
+    .main-nav {
+        width: 100%;
+    }
+    
+    .nav-menu {
+        justify-content: center;
+    }
+    
+    .nav-menu a {
+        padding: 8px 10px;
+        margin: 3px;
+        font-size: 15px;
+    }
+}
+
 @media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
     .nav-menu {
         display: none;
         flex-direction: column;
@@ -92,6 +124,7 @@
         padding: 12px 15px;
         margin: 5px 0;
         border-radius: 5px;
+        text-align: center;
     }
     
     .nav-menu a:hover {
