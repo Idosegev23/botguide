@@ -186,6 +186,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// הוספת נתיב מפורש ל-/chat שיציג את ממשק הצ'אט
+app.get('/chat', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // הגדרת הפורט בהתאם לסביבה
 const PORT = process.env.PORT || 3000;
 

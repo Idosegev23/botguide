@@ -4,6 +4,22 @@
     {
       "src": "support-bot.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,8 +28,24 @@
       "dest": "support-bot.js"
     },
     {
-      "src": "/(.*)",
+      "src": "/chat",
       "dest": "support-bot.js"
+    },
+    {
+      "src": "/",
+      "dest": "index.html"
+    },
+    {
+      "src": "/(.+\\.js)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.+\\.css)",
+      "dest": "/$1"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
     }
   ]
 } 
