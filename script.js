@@ -383,9 +383,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
-        const messageParagraph = document.createElement('p');
-        messageParagraph.textContent = text;
-        messageContent.appendChild(messageParagraph);
+        if (isUser) {
+            // תוכן הודעת משתמש נשאר כטקסט רגיל
+            const messageParagraph = document.createElement('p');
+            messageParagraph.textContent = text;
+            messageContent.appendChild(messageParagraph);
+        } else {
+            // עיבוד תוכן הודעת הבוט
+            const formattedContent = formatBotMessage(text);
+            messageContent.innerHTML = formattedContent;
+        }
         
         const messageTime = document.createElement('div');
         messageTime.className = 'message-time';
@@ -399,6 +406,114 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // גלילה לתחתית הצ'אט
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // פונקציה לעיצוב הודעות בוט
+    function formatBotMessage(text) {
+        if (!text) return '';
+        
+        // בדיקה אם יש רשימות
+        let hasUnorderedList = text.match(/^(\*|\-)\s.+$/gm);
+        let hasOrderedList = text.match(/^\d+\.\s.+$/gm);
+        
+        // החלפת סימונים מיוחדים ועיצוב התוכן
+        let formattedText = text
+            // פיסקאות
+            .replace(/\n\s*\n/g, '</p><p>')
+            
+            // עטיפת כל התוכן בתגית p
+            .replace(/^(.+)$/gm, function(match) {
+                // אם השורה כבר מתחילה עם תגית HTML, השאר אותה כמו שהיא
+                if (match.startsWith('<') || match.trim() === '') {
+                    return match;
+                }
+                return match;
+            })
+            
+            // סימון כותרות (צריך להיות לפני מעבדי שורה)
+            .replace(/^#\s+(.+)$/gm, '<h4>$1</h4>')
+            .replace(/^##\s+(.+)$/gm, '<h5>$1</h5>')
+            .replace(/^###\s+(.+)$/gm, '<h6>$1</h6>')
+            
+            // סימון ציטוטים (blockquote)
+            .replace(/^>\s+(.+)$/gm, '<blockquote>$1</blockquote>')
+            
+            // סימון רשימות
+            .replace(/^(\*|\-)\s+(.+)$/gm, '<li>$2</li>')
+            .replace(/^(\d+)\.\s+(.+)$/gm, '<li>$2</li>')
+            
+            // סימון טקסט מודגש ונטוי
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/_(.+?)_/g, '<em>$1</em>')
+            
+            // קישורים (בפורמט מארקדאון)
+            .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+            
+            // קוד ותחביר מיוחד
+            .replace(/`(.+?)`/g, '<code>$1</code>')
+            
+            // החלפת שורות חדשות בתגית <br> (לאחר הטיפול בכותרות ורשימות)
+            .replace(/\n/g, '<br>');
+        
+        // עטיפת התוכן בתגית p (אם לא כבר נעטף)
+        if (!formattedText.startsWith('<p>')) {
+            formattedText = '<p>' + formattedText + '</p>';
+        }
+        
+        // תיקון מקומות שבהם יש שימוש כפול בתגיות
+        formattedText = formattedText
+            .replace(/<p><h([4-6])>/g, '<h$1>')
+            .replace(/<\/h([4-6])><\/p>/g, '</h$1>')
+            .replace(/<p><blockquote>/g, '<blockquote>')
+            .replace(/<\/blockquote><\/p>/g, '</blockquote>')
+            .replace(/<\/p><p><\/p><p>/g, '</p><p>')
+            .replace(/<p><\/p>/g, '');
+        
+        // עטיפת פריטי רשימה ב-ul או ol
+        if (hasUnorderedList) {
+            formattedText = wrapListItems(formattedText, 'ul');
+        }
+        
+        if (hasOrderedList) {
+            formattedText = wrapListItems(formattedText, 'ol');
+        }
+        
+        return formattedText;
+    }
+    
+    // פונקציה לעטיפת פריטי רשימה בתגיות ul או ol
+    function wrapListItems(html, listType) {
+        // כיוון שכבר הכנסנו את התוכן לתגיות p, צריך לחפש את פריטי הרשימה בתוכן
+        let parts = html.split(/<\/?p>/g).filter(p => p.trim() !== '');
+        let result = [];
+        
+        for (let i = 0; i < parts.length; i++) {
+            let part = parts[i];
+            
+            // אם החלק מכיל פריטי רשימה
+            if (part.includes('<li>')) {
+                // הוצאת פריטי הרשימה מהחלק
+                let liItems = part.split('<br>').filter(line => line.includes('<li>'));
+                
+                // בניית הרשימה
+                let listHtml = `<${listType}>` + liItems.join('') + `</${listType}>`;
+                
+                // הוספת הרשימה לתוצאה
+                result.push(listHtml);
+                
+                // הוספת שאר הטקסט שלא היה חלק מהרשימה
+                let nonListText = part.split('<br>').filter(line => !line.includes('<li>')).join('<br>');
+                if (nonListText.trim() !== '') {
+                    result.push('<p>' + nonListText + '</p>');
+                }
+            } else {
+                // הוספת חלק שאינו רשימה
+                result.push('<p>' + part + '</p>');
+            }
+        }
+        
+        return result.join('').replace(/<p><\/p>/g, '');
     }
 
     // הצגת סמן 'מקליד'
