@@ -29,17 +29,17 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <a href="#">TriRoars</a>
+                    <a href="#">מדריך בוט</a>
                 </div>
                 <nav class="main-nav">
                     <ul>
                         <li><a href="#intro">מבוא</a></li>
-                        <li><a href="#step1">שלב 1</a></li>
-                        <li><a href="#step2">שלב 2</a></li>
-                        <li><a href="#step3">שלב 3</a></li>
-                        <li><a href="#step4">שלב 4</a></li>
-                        <li><a href="#step5">שלב 5</a></li>
-                        <li><a href="#tips">טיפים</a></li>
+                        <li><a href="#step1">הגדרת OpenAI</a></li>
+                        <li><a href="#step2">הרשמה ל-Make</a></li>
+                        <li><a href="#step3">חיבור וואטסאפ</a></li>
+                        <li><a href="#step4">בניית האוטומציה</a></li>
+                        <li><a href="#step5">הרחבות נוספות</a></li>
+                        <li><a href="#tips">טיפים ואבטחה</a></li>
                     </ul>
                 </nav>
                 <div class="menu-toggle">
@@ -50,6 +50,20 @@
             </div>
         </div>
     </header>
+
+    <nav class="anchor-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#intro">מבוא</a></li>
+                <li><a href="#step1">הגדרת OpenAI</a></li>
+                <li><a href="#step2">הרשמה ל-Make</a></li>
+                <li><a href="#step3">חיבור וואטסאפ</a></li>
+                <li><a href="#step4">בניית האוטומציה</a></li>
+                <li><a href="#step5">הרחבות נוספות</a></li>
+                <li><a href="#tips">טיפים ואבטחה</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <section class="hero-section">
         <div class="container">
@@ -76,9 +90,7 @@
                 </div>
             </div>
             <div class="hero-image">
-                <div class="image-container">
-                    <img src="https://i.imgur.com/Kmu9vTl.png" alt="בוט WhatsApp - דוגמה לשיחה">
-                </div>
+                <!-- התמונה הוסרה בהתאם לבקשה -->
             </div>
         </div>
     </section>
@@ -95,7 +107,7 @@
 
             <div class="step-section" id="step1">
                 <div class="step-content">
-                    <h2>שלב 1: פתיחת חשבון OpenAI וקבלת מפתח API</h2>
+                    <h2>הגדרת OpenAI וקבלת מפתח API</h2>
                     <p><strong>יצירת חשבון OpenAI:</strong> גשו לאתר <a href="https://platform.openai.com" target="_blank">OpenAI</a> (פורטל המפתחים של OpenAI). לחצו על "Sign Up" להרשמה, והשלימו את תהליך פתיחת החשבון באמצעות כתובת אימייל וסיסמה (או כניסה עם חשבון Google/Microsoft לפי האפשרות באתר). פתיחת החשבון היא בחינם. לאחר ההרשמה, ייתכן שתידרשו לאמת את האימייל ואת מספר הטלפון שלכם.</p>
                     <p><strong>גישה לממשק המפתחים:</strong> לאחר שיש לכם חשבון, היכנסו לפלטפורמת OpenAI (הדשבורד של המפתחים). כאן נוכל ליצור API Key (מפתח סודי) שבעזרתו Make תתקשר עם שירות ה-AI. בפינה העליונה של הדשבורד, לחצו על התפריט (אייקון הפרופיל או גלגל שיניים) ובחרו "View API keys". זה יוביל אתכם לעמוד API keys בו ניתן לנהל את המפתחות לחשבון.</p>
                     <div class="image-container">
@@ -114,7 +126,7 @@
 
             <div class="step-section" id="step2">
                 <div class="step-content">
-                    <h2>שלב 2: הרשמה ל-Make (Integromat)</h2>
+                    <h2>הרשמה ל-Make (Integromat)</h2>
                     <p><strong>יצירת חשבון Make:</strong> בקרו באתר <a href="https://www.make.com" target="_blank">Make</a> ולחצו על כפתור "Get started free" (התחילו בחינם) להרשמה. תוכלו להירשם עם כתובת אימייל וסיסמה או באמצעות חשבון גוגל. ההרשמה בסיסית ודורשת אימות אימייל. ל-Make יש תוכנית חינמית ללא צורך בכרטיס אשראי, שמתאימה כדי להתחיל (ומאפשרת כ-1,000 פעולות בחודש בחינם, נכון לכתיבת שורות אלו).</p>
                     <div class="image-container">
                         <img src="public/makenewscenerio.png" alt="מסך של עמוד ההרשמה ב-Make" class="guide-image">
@@ -129,7 +141,7 @@
 
             <div class="step-section" id="step3">
                 <div class="step-content">
-                    <h2>שלב 3: הרשמה והגדרת GreenAPI (חיבור מספר וואטסאפ)</h2>
+                    <h2>חיבור מספר וואטסאפ באמצעות GreenAPI</h2>
                     <p><strong>פתיחת חשבון GreenAPI:</strong> גשו לאתר <a href="https://console.green-api.com/" target="_blank">GreenAPI Console</a> והירשמו (Sign Up) עם האימייל שלכם. ניתן גם לגשת דרך האתר <a href="https://green-api.org.il" target="_blank">בעברית</a> – המערכת תומכת בעברית. לאחר הרשמה ואימות אימייל, התחברו לממשק.</p>
                     <p><strong>יצירת Instance (מופע) חדש:</strong> בתוך לוח הבקרה של GreenAPI, בעמוד "Instances" (מופעים), לחצו על כפתור "Create an instance" (יצירת מופע חדש). מופע הוא בעצם חיבור של מספר וואטסאפ שלכם למערכת ה-API.</p>
                     <div class="image-container">
@@ -157,7 +169,7 @@
 
             <div class="step-section" id="step4">
                 <div class="step-content">
-                    <h2>שלב 4: בניית תרחיש ב-Make</h2>
+                    <h2>בניית האוטומציה המלאה במערכת Make</h2>
                     <p>בשלב זה נחבר את כל הכלים יחד ליצירת בוט אוטומטי. הרעיון המרכזי של הפתרון: הודעה נכנסת בוואטסאפ תפעיל אוטומציה ב-Make (באמצעות GreenAPI). האוטומציה תיקח את תוכן ההודעה, תשלח אותו ל-OpenAI (למודל שפה חכם), תקבל ממנו תשובה, ולבסוף תשלח את התשובה בחזרה לשולח בוואטסאפ. כל זה קורה תוך שניות ספורות וללא התערבות ידנית.</p>
                     
                     <p>תרשים כללי של התרחיש שאנו הולכים לבנות:</p>
@@ -277,7 +289,7 @@
 
             <div class="step-section" id="step5">
                 <div class="step-content">
-                    <h2>שלב 5: הרחבת הבוט לאתר האינטרנט שלכם</h2>
+                    <h2>הרחבת הבוט לאתר ופלטפורמות נוספות</h2>
                     <p>לאחר שהבוט פועל בוואטסאפ, טבעי לרצות שימוש דומה גם בערוצים אחרים, למשל באתר החברה שלכם או באפליקציה. הבשורה הטובה היא שהארכיטקטורה דומה – גם כאן נרצה לקחת שאלות משתמשים (מאתר) ולהשיב להן בעזרת OpenAI. קיימות מספר דרכים להרחיב את הבוט שיצרנו לאתר האינטרנט שלכם:</p>
                     
                     <h3>1. שימוש ב-Make עם Webhook מהאתר</h3>
@@ -322,7 +334,7 @@
 
             <div class="step-section" id="tips">
                 <div class="step-content">
-                    <h2>שלב 6: טיפים חשובים - פרטיות, אבטחה ושימוש נכון</h2>
+                    <h2>טיפים לפרטיות, אבטחה ושימוש מיטבי</h2>
                     <p>לאחר שהכרנו את כל השלבים ליצירת הבוט, חשוב להתייחס לכמה נקודות מפתח כדי להשתמש בבוט בצורה אחראית ובטוחה, הן עבורכם והן עבור המשתמשים:</p>
                     
                     <h3>1. אבטחת מפתחות API</h3>
@@ -489,7 +501,7 @@
         <div id="chat-messages" class="chat-messages">
             <div class="message bot-message">
                 <div class="message-content">
-                    <p>שלום! אני בוט התמיכה של TriRoars. כיצד אוכל לעזור לך בנוגע להקמת בוט WhatsApp?</p>
+                    <p>שלום! אני בוט התמיכה של המדריך. כיצד אוכל לעזור לך בנוגע להקמת בוט WhatsApp?</p>
                 </div>
                 <div class="message-time">
                     <!-- זמן יתעדכן דינמית -->

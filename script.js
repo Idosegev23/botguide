@@ -412,12 +412,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function formatBotMessage(text) {
         if (!text) return '';
         
+        // הסרת תבניות מקור לא רצויות (כמו 【X:Y†source】)
+        let cleanedText = text.replace(/【\d+:\d+†source】/g, '').trim();
+
         // בדיקה אם יש רשימות
-        let hasUnorderedList = text.match(/^(\*|\-)\s.+$/gm);
-        let hasOrderedList = text.match(/^\d+\.\s.+$/gm);
+        let hasUnorderedList = cleanedText.match(/^(\*|\-)\s.+$/gm);
+        let hasOrderedList = cleanedText.match(/^\d+\.\s.+$/gm);
         
         // החלפת סימונים מיוחדים ועיצוב התוכן
-        let formattedText = text
+        let formattedText = cleanedText
             // פיסקאות
             .replace(/\n\s*\n/g, '</p><p>')
             
