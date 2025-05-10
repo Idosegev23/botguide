@@ -17,43 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.querySelector('.main-nav');
-    const body = document.body;
-    
-    // יצירת מסך כהה עבור התפריט הנייד
-    const menuOverlay = document.createElement('div');
-    menuOverlay.className = 'menu-overlay';
-    body.appendChild(menuOverlay);
     
     if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
             mainNav.classList.toggle('active');
-            menuOverlay.classList.toggle('active');
-            
-            // נעילת גלילה כשהתפריט פתוח
-            if (mainNav.classList.contains('active')) {
-                body.style.overflow = 'hidden';
-            } else {
-                body.style.overflow = '';
-            }
-        });
-        
-        // סגירת התפריט בלחיצה על המסך האפור
-        menuOverlay.addEventListener('click', () => {
-            mainNav.classList.remove('active');
-            menuToggle.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            body.style.overflow = '';
-        });
-    
-        // סגירת התפריט בלחיצה על קישור
-        document.querySelectorAll('.main-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                mainNav.classList.remove('active');
-                menuToggle.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                body.style.overflow = '';
-            });
         });
     }
     
@@ -76,10 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // Add active class to the clicked link
-                document.querySelectorAll('.main-nav a').forEach(link => {
+                document.querySelectorAll('.anchor-nav a, .main-nav a').forEach(link => {
                     link.classList.remove('active');
                 });
-                document.querySelectorAll(`.main-nav a[href="${targetId}"]`).forEach(link => {
+                document.querySelectorAll(`.anchor-nav a[href="${targetId}"], .main-nav a[href="${targetId}"]`).forEach(link => {
                     link.classList.add('active');
                 });
                 
@@ -129,24 +97,50 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Highlight current section in anchor navigation
     function highlightCurrentSection() {
-        const sections = document.querySelectorAll('section[id]');
-        window.addEventListener('scroll', () => {
-            const scrollY = window.pageYOffset;
-            
-            sections.forEach(current => {
-                const sectionHeight = current.offsetHeight;
-                const sectionTop = current.offsetTop - 100;
-                const sectionId = current.getAttribute('id');
+        const sections = [
+            '#step1',
+            '#step2',
+            '#step3',
+            '#step4',
+            '#step5',
+            '#tips',
+            '#intro',
+            '#openai',
+            '#make',
+            '#greenapi',
+            '#expansion'
+        ];
+        
+        const scrollPosition = window.scrollY + window.innerHeight / 3;
+        
+        let currentSection = null;
+        
+        sections.forEach(sectionId => {
+            const section = document.querySelector(sectionId);
+            if (section) {
+                const sectionTop = section.offsetTop - 100; // Account for sticky header
+                const sectionBottom = sectionTop + section.offsetHeight;
                 
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    document.querySelectorAll('.main-nav a').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    document.querySelectorAll(`.main-nav a[href="#${sectionId}"]`).forEach(link => {
-                        link.classList.add('active');
-                    });
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    currentSection = sectionId;
+                    
+                    // Add subtle animation to the current section
+                    section.classList.add('active-section');
+                } else {
+                    const inactiveSection = document.querySelector(sectionId);
+                    if (inactiveSection) {
+                        inactiveSection.classList.remove('active-section');
+                    }
                 }
-            });
+            }
+        });
+        
+        document.querySelectorAll('.anchor-nav a, .main-nav a').forEach(anchor => {
+            anchor.classList.remove('active');
+            
+            if (currentSection && anchor.getAttribute('href') === currentSection) {
+                anchor.classList.add('active');
+            }
         });
     }
     
@@ -348,525 +342,175 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // הפעלת בוט הצ'אט הצף
-    const floatingChatIcon = document.getElementById('floating-chat-icon');
-    const floatingChatContainer = document.getElementById('floating-chat-container');
-    const minimizeChatButton = document.getElementById('minimize-chat');
-    const chatInput = document.getElementById('user-input');
-    const sendButton = document.getElementById('send-button');
-    const chatMessages = document.getElementById('chat-messages');
-
-    // יצירת מזהה משתמש ייחודי (UUID)
-    function generateUserId() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
+    // הפעלת אירוע לחיצה לכפתור הצ'אט בתפריט
+    const chatToggleButton = document.querySelector('.chat-toggle-button');
+    if (chatToggleButton) {
+        chatToggleButton.addEventListener('click', function() {
+            toggleChatInterface(true);
         });
     }
 
-    // שמירת מזהה המשתמש ב-localStorage או יצירת חדש אם לא קיים
+    // פונקציה להגדרת כפתור הצ'אט הצף
+    setupChatButton();
+
+    // הגדרת ממשק הצ'אט המוטמע
+    setupChatInterface();
+});
+
+// פונקציה להגדרת כפתור הצ'אט הצף
+function setupChatButton() {
+    // יצירת הכפתור הצף אם לא קיים
+    if (!document.querySelector('.floating-chat-button')) {
+        const floatingButton = document.createElement('div');
+        floatingButton.className = 'floating-chat-button';
+        floatingButton.innerHTML = '<span class="chat-icon">💬</span>';
+        document.body.appendChild(floatingButton);
+
+        // טיפול בלחיצה על הכפתור
+        floatingButton.addEventListener('click', function() {
+            toggleChatInterface();
+        });
+    }
+}
+
+// פונקציה להגדרת ממשק הצ'אט
+function setupChatInterface() {
+    // בדיקה אם ממשק הצ'אט כבר קיים
+    if (!document.querySelector('.chat-container')) {
+        // יצירת מיכל הצ'אט
+        const chatContainer = document.createElement('div');
+        chatContainer.className = 'chat-container';
+        chatContainer.innerHTML = `
+            <div class="chat-header">
+                <h3>בוט תמיכה</h3>
+                <button class="close-chat">×</button>
+            </div>
+            <div class="chat-messages">
+                <div class="bot-message">
+                    <div class="message-content">שלום! איך אוכל לעזור לך בנושא בוטים לשירות לקוחות?</div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <textarea class="chat-input" placeholder="הקלד שאלה כאן..."></textarea>
+                <button class="send-message">שלח</button>
+            </div>
+        `;
+        document.body.appendChild(chatContainer);
+
+        // טיפול בסגירת הצ'אט
+        const closeButton = chatContainer.querySelector('.close-chat');
+        if (closeButton) {
+            closeButton.addEventListener('click', function() {
+                toggleChatInterface(false);
+            });
+        }
+
+        // טיפול בשליחת הודעה
+        const sendButton = chatContainer.querySelector('.send-message');
+        const chatInput = chatContainer.querySelector('.chat-input');
+        const chatMessages = chatContainer.querySelector('.chat-messages');
+
+        if (sendButton && chatInput && chatMessages) {
+            // שליחת הודעה בלחיצה על כפתור השליחה
+            sendButton.addEventListener('click', function() {
+                sendMessage(chatInput, chatMessages);
+            });
+
+            // שליחת הודעה בלחיצה על Enter
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage(chatInput, chatMessages);
+                }
+            });
+        }
+    }
+}
+
+// פונקציה לטוגל הצגת/הסתרת ממשק הצ'אט
+function toggleChatInterface(show = true) {
+    const chatContainer = document.querySelector('.chat-container');
+    if (chatContainer) {
+        if (show) {
+            chatContainer.classList.add('active');
+        } else {
+            chatContainer.classList.remove('active');
+        }
+    }
+}
+
+// פונקציה לשליחת הודעה לבוט
+function sendMessage(inputElement, messagesContainer) {
+    const message = inputElement.value.trim();
+    if (!message) return;
+
+    // הוספת הודעת המשתמש לצ'אט
+    const userMessageElement = document.createElement('div');
+    userMessageElement.className = 'user-message';
+    userMessageElement.innerHTML = `<div class="message-content">${message}</div>`;
+    messagesContainer.appendChild(userMessageElement);
+
+    // ניקוי תיבת הקלט
+    inputElement.value = '';
+
+    // גלילה לתחתית הצ'אט
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // הצגת אינדיקטור טעינה
+    const loadingElement = document.createElement('div');
+    loadingElement.className = 'bot-message loading';
+    loadingElement.innerHTML = '<div class="message-content"><div class="typing-indicator"><span></span><span></span><span></span></div></div>';
+    messagesContainer.appendChild(loadingElement);
+
+    // שליחת הבקשה לשרת
+    const userId = generateUserId();
+    
+    fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: message,
+            userId: userId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // הסרת אינדיקטור הטעינה
+        messagesContainer.removeChild(loadingElement);
+
+        // הוספת תשובת הבוט
+        const botMessageElement = document.createElement('div');
+        botMessageElement.className = 'bot-message';
+        botMessageElement.innerHTML = `<div class="message-content">${data.response}</div>`;
+        messagesContainer.appendChild(botMessageElement);
+
+        // גלילה לתחתית הצ'אט
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    })
+    .catch(error => {
+        // הסרת אינדיקטור הטעינה
+        messagesContainer.removeChild(loadingElement);
+
+        // הצגת הודעת שגיאה
+        const errorElement = document.createElement('div');
+        errorElement.className = 'bot-message error';
+        errorElement.innerHTML = '<div class="message-content">מצטערים, אירעה שגיאה. אנא נסה שוב מאוחר יותר.</div>';
+        messagesContainer.appendChild(errorElement);
+
+        console.error('שגיאה בקריאה לשרת:', error);
+    });
+}
+
+// יצירת מזהה משתמש
+function generateUserId() {
+    // שימוש במזהה קיים אם קיים
     let userId = localStorage.getItem('chatUserId');
     if (!userId) {
-        userId = generateUserId();
+        // יצירת מזהה אקראי אם אין
+        userId = 'user_' + Math.random().toString(36).substring(2, 15);
         localStorage.setItem('chatUserId', userId);
     }
-
-    // פתיחה וסגירה של ממשק הצ'אט
-    floatingChatIcon.addEventListener('click', () => {
-        floatingChatContainer.classList.add('active');
-        chatInput.focus();
-    });
-
-    minimizeChatButton.addEventListener('click', () => {
-        floatingChatContainer.classList.remove('active');
-    });
-
-    // הוספת הודעה לממשק הצ'אט
-    function addChatMessage(text, isUser = false) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-
-        const messageContent = document.createElement('div');
-        messageContent.className = 'message-content';
-        
-        if (isUser) {
-            // תוכן הודעת משתמש נשאר כטקסט רגיל
-            const messageParagraph = document.createElement('p');
-            messageParagraph.textContent = text;
-            messageContent.appendChild(messageParagraph);
-        } else {
-            // עיבוד תוכן הודעת הבוט
-            const formattedContent = formatBotMessage(text);
-            messageContent.innerHTML = formattedContent;
-        }
-        
-        const messageTime = document.createElement('div');
-        messageTime.className = 'message-time';
-        const now = new Date();
-        messageTime.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-        
-        messageDiv.appendChild(messageContent);
-        messageDiv.appendChild(messageTime);
-        
-        chatMessages.appendChild(messageDiv);
-        
-        // גלילה לתחתית הצ'אט
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    // פונקציה לעיצוב הודעות בוט
-    function formatBotMessage(text) {
-        if (!text) return '';
-        
-        // הסרת תבניות מקור לא רצויות (כמו 【X:Y†source】)
-        let cleanedText = text.replace(/【\d+:\d+†source】/g, '').trim();
-
-        // בדיקה אם יש רשימות
-        let hasUnorderedList = cleanedText.match(/^(\*|\-)\s.+$/gm);
-        let hasOrderedList = cleanedText.match(/^\d+\.\s.+$/gm);
-        
-        // החלפת סימונים מיוחדים ועיצוב התוכן
-        let formattedText = cleanedText
-            // פיסקאות
-            .replace(/\n\s*\n/g, '</p><p>')
-            
-            // עטיפת כל התוכן בתגית p
-            .replace(/^(.+)$/gm, function(match) {
-                // אם השורה כבר מתחילה עם תגית HTML, השאר אותה כמו שהיא
-                if (match.startsWith('<') || match.trim() === '') {
-                    return match;
-                }
-                return match;
-            })
-            
-            // סימון כותרות (צריך להיות לפני מעבדי שורה)
-            .replace(/^#\s+(.+)$/gm, '<h4>$1</h4>')
-            .replace(/^##\s+(.+)$/gm, '<h5>$1</h5>')
-            .replace(/^###\s+(.+)$/gm, '<h6>$1</h6>')
-            
-            // סימון ציטוטים (blockquote)
-            .replace(/^>\s+(.+)$/gm, '<blockquote>$1</blockquote>')
-            
-            // סימון רשימות
-            .replace(/^(\*|\-)\s+(.+)$/gm, '<li>$2</li>')
-            .replace(/^(\d+)\.\s+(.+)$/gm, '<li>$2</li>')
-            
-            // סימון טקסט מודגש ונטוי
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/_(.+?)_/g, '<em>$1</em>')
-            
-            // קישורים (בפורמט מארקדאון)
-            .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-            
-            // קוד ותחביר מיוחד
-            .replace(/`(.+?)`/g, '<code>$1</code>')
-            
-            // החלפת שורות חדשות בתגית <br> (לאחר הטיפול בכותרות ורשימות)
-            .replace(/\n/g, '<br>');
-        
-        // עטיפת התוכן בתגית p (אם לא כבר נעטף)
-        if (!formattedText.startsWith('<p>')) {
-            formattedText = '<p>' + formattedText + '</p>';
-        }
-        
-        // תיקון מקומות שבהם יש שימוש כפול בתגיות
-        formattedText = formattedText
-            .replace(/<p><h([4-6])>/g, '<h$1>')
-            .replace(/<\/h([4-6])><\/p>/g, '</h$1>')
-            .replace(/<p><blockquote>/g, '<blockquote>')
-            .replace(/<\/blockquote><\/p>/g, '</blockquote>')
-            .replace(/<\/p><p><\/p><p>/g, '</p><p>')
-            .replace(/<p><\/p>/g, '');
-        
-        // עטיפת פריטי רשימה ב-ul או ol
-        if (hasUnorderedList) {
-            formattedText = wrapListItems(formattedText, 'ul');
-        }
-        
-        if (hasOrderedList) {
-            formattedText = wrapListItems(formattedText, 'ol');
-        }
-        
-        return formattedText;
-    }
-    
-    // פונקציה לעטיפת פריטי רשימה בתגיות ul או ol
-    function wrapListItems(html, listType) {
-        // כיוון שכבר הכנסנו את התוכן לתגיות p, צריך לחפש את פריטי הרשימה בתוכן
-        let parts = html.split(/<\/?p>/g).filter(p => p.trim() !== '');
-        let result = [];
-        
-        for (let i = 0; i < parts.length; i++) {
-            let part = parts[i];
-            
-            // אם החלק מכיל פריטי רשימה
-            if (part.includes('<li>')) {
-                // הוצאת פריטי הרשימה מהחלק
-                let liItems = part.split('<br>').filter(line => line.includes('<li>'));
-                
-                // בניית הרשימה
-                let listHtml = `<${listType}>` + liItems.join('') + `</${listType}>`;
-                
-                // הוספת הרשימה לתוצאה
-                result.push(listHtml);
-                
-                // הוספת שאר הטקסט שלא היה חלק מהרשימה
-                let nonListText = part.split('<br>').filter(line => !line.includes('<li>')).join('<br>');
-                if (nonListText.trim() !== '') {
-                    result.push('<p>' + nonListText + '</p>');
-                }
-            } else {
-                // הוספת חלק שאינו רשימה
-                result.push('<p>' + part + '</p>');
-            }
-        }
-        
-        return result.join('').replace(/<p><\/p>/g, '');
-    }
-
-    // הצגת סמן 'מקליד'
-    function showTypingIndicator() {
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'typing-indicator';
-        typingDiv.id = 'typing-indicator';
-        
-        // הוספת שלוש נקודות לאנימציה
-        for (let i = 0; i < 3; i++) {
-            const dot = document.createElement('span');
-            typingDiv.appendChild(dot);
-        }
-        
-        chatMessages.appendChild(typingDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    // הסרת סמן 'מקליד'
-    function removeTypingIndicator() {
-        const typingIndicator = document.getElementById('typing-indicator');
-        if (typingIndicator) {
-            typingIndicator.remove();
-        }
-    }
-
-    // שליחת הודעה לשרת וקבלת תשובה
-    async function sendChatMessage(message) {
-        try {
-            showTypingIndicator();
-            
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: message,
-                    userId: userId
-                })
-            });
-            
-            if (!response.ok) {
-                throw new Error('בעיה בתקשורת עם השרת');
-            }
-            
-            const data = await response.json();
-            removeTypingIndicator();
-            
-            if (data.response) {
-                addChatMessage(data.response, false);
-            } else {
-                addChatMessage('מצטער, לא הצלחתי לקבל תשובה. אנא נסה שוב.', false);
-            }
-        } catch (error) {
-            console.error('שגיאה בשליחת ההודעה:', error);
-            removeTypingIndicator();
-            addChatMessage('אירעה שגיאה בתקשורת עם השרת. אנא נסה שוב מאוחר יותר.', false);
-        }
-    }
-
-    // טיפול בשליחת הודעה
-    function handleSendChatMessage() {
-        const message = chatInput.value.trim();
-        
-        if (message) {
-            addChatMessage(message, true);
-            chatInput.value = '';
-            sendChatMessage(message);
-        }
-    }
-
-    // האזנה לאירועים
-    sendButton.addEventListener('click', handleSendChatMessage);
-    
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleSendChatMessage();
-        }
-    });
-
-    // טיפול במקרה של לחיצה במקום אחר בעמוד
-    document.addEventListener('click', (e) => {
-        // סגירת הצ'אט אם לחצו מחוץ לאזור הצ'אט ולא על הכפתור
-        if (floatingChatContainer.classList.contains('active') && 
-            !floatingChatContainer.contains(e.target) && 
-            e.target !== floatingChatIcon && 
-            !floatingChatIcon.contains(e.target)) {
-            floatingChatContainer.classList.remove('active');
-        }
-    });
-
-    // מנע התפשטות האירוע כשלוחצים בתוך הצ'אט
-    floatingChatContainer.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-
-    // Dark Mode Toggle
-    function initDarkMode() {
-        const darkModeToggle = document.createElement('button');
-        darkModeToggle.className = 'dark-mode-toggle';
-        darkModeToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-        darkModeToggle.setAttribute('aria-label', 'החלף מצב תצוגה');
-        darkModeToggle.setAttribute('title', 'החלף מצב תצוגה');
-        document.body.appendChild(darkModeToggle);
-
-        // Check for saved preference
-        const isDarkMode = localStorage.getItem('darkMode') === 'true';
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            updateDarkModeIcon(true);
-        }
-
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            updateDarkModeIcon(isDark);
-        });
-    }
-
-    function updateDarkModeIcon(isDark) {
-        const darkModeToggle = document.querySelector('.dark-mode-toggle');
-        if (isDark) {
-            darkModeToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
-        } else {
-            darkModeToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
-        }
-    }
-
-    // Intersection Observer for fade-in animations
-    function initScrollAnimations() {
-        const fadeElems = document.querySelectorAll('.step-section, .hero-section h1, .hero-subtitle, .hero-features, .hero-buttons');
-        
-        fadeElems.forEach(elem => {
-            elem.classList.add('fade-in-section');
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
-        });
-
-        fadeElems.forEach(elem => {
-            observer.observe(elem);
-        });
-    }
-
-    // Smooth anchor scrolling
-    function initSmoothScroll() {
-        document.querySelectorAll('.main-nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    }
-
-    // Active menu highlighting
-    function initActiveMenu() {
-        const sections = document.querySelectorAll('.step-section');
-        const navItems = document.querySelectorAll('.main-nav a');
-        
-        function highlightMenuItems() {
-            let currentSection = '';
-            const scrollPosition = window.scrollY;
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150;
-                const sectionHeight = section.clientHeight;
-                const sectionId = section.getAttribute('id');
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    currentSection = sectionId;
-                }
-            });
-            
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                const href = item.getAttribute('href');
-                if (href && href.substring(1) === currentSection) {
-                    item.classList.add('active');
-                }
-            });
-        }
-        
-        window.addEventListener('scroll', highlightMenuItems);
-        window.addEventListener('load', highlightMenuItems);
-        
-        // תגובת קליק טובה יותר
-        navItems.forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId && targetId !== '#') {
-                    const targetSection = document.querySelector(targetId);
-                    if (targetSection) {
-                        const offset = 100; // מרווח מראש העמוד
-                        const targetPosition = targetSection.offsetTop - offset;
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                        
-                        // עדכון URL (אופציונלי)
-                        history.pushState(null, '', targetId);
-                        
-                        // הסרת הפוקוס מהקישור
-                        this.blur();
-                    }
-                }
-            });
-        });
-    }
-
-    // Mobile menu toggle
-    function initMobileMenu() {
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainNav = document.querySelector('.main-nav');
-        const body = document.body;
-        
-        // יצירת מסך כהה עבור התפריט הנייד
-        const menuOverlay = document.createElement('div');
-        menuOverlay.className = 'menu-overlay';
-        body.appendChild(menuOverlay);
-        
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                menuToggle.classList.toggle('active');
-                mainNav.classList.toggle('active');
-                menuOverlay.classList.toggle('active');
-                
-                // נעילת גלילה כשהתפריט פתוח
-                if (mainNav.classList.contains('active')) {
-                    body.style.overflow = 'hidden';
-                } else {
-                    body.style.overflow = '';
-                }
-            });
-            
-            // סגירת התפריט בלחיצה על המסך האפור
-            menuOverlay.addEventListener('click', () => {
-                mainNav.classList.remove('active');
-                menuToggle.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                body.style.overflow = '';
-            });
-        
-            // סגירת התפריט בלחיצה על קישור
-            document.querySelectorAll('.main-nav a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mainNav.classList.remove('active');
-                    menuToggle.classList.remove('active');
-                    menuOverlay.classList.remove('active');
-                    body.style.overflow = '';
-                });
-            });
-        }
-    }
-
-    // Back to top button
-    function initBackToTop() {
-        const backToTop = document.createElement('button');
-        backToTop.className = 'back-to-top';
-        backToTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
-        backToTop.setAttribute('aria-label', 'חזרה לראש הדף');
-        backToTop.setAttribute('title', 'חזרה לראש הדף');
-        document.body.appendChild(backToTop);
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 600) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // הפעלת האקורדיון
-    function initAccordion() {
-        const accordionItems = document.querySelectorAll('.accordion-item');
-        
-        accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            const content = item.querySelector('.accordion-content');
-            
-            header.addEventListener('click', () => {
-                // בדיקה אם זה האייטם שכבר פתוח
-                const isOpen = item.classList.contains('active');
-                
-                // סגירת כל האייטמים
-                accordionItems.forEach(otherItem => {
-                    otherItem.classList.remove('active');
-                });
-                
-                // פתיחת האייטם הנוכחי (אם הוא היה סגור)
-                if (!isOpen) {
-                    item.classList.add('active');
-                }
-            });
-        });
-    }
-
-    // טיפול בכפתור הצ'אט
-    function initChatButton() {
-        const chatButton = document.querySelector('.chat-bubble');
-        
-        if (chatButton) {
-            chatButton.addEventListener('click', () => {
-                // פה אפשר לשלב פתיחת חלון צ'אט או הפנייה למספר וואטסאפ
-                // לדוגמה: window.open('https://wa.me/972XXXXXXXXX', '_blank');
-                alert('צור קשר עם המומחים שלנו בוואטסאפ לקבלת סיוע נוסף!');
-            });
-        }
-    }
-
-    initDarkMode();
-    initScrollAnimations();
-    initSmoothScroll();
-    initActiveMenu();
-    initMobileMenu();
-    initBackToTop();
-    initAccordion();
-    initChatButton();
-}); 
+    return userId;
+} 
