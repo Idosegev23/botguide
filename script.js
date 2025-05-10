@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // וידוא שקישורים מוצגים כראוי ולא כטקסט
+    fixExternalLinks();
+    
     // Smooth scrolling for anchor links - improved
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -513,4 +516,32 @@ function generateUserId() {
         localStorage.setItem('chatUserId', userId);
     }
     return userId;
+}
+
+// פונקציה לתיקון תצוגת הקישורים החיצוניים
+function fixExternalLinks() {
+    // וידוא שקישורים חיצוניים מוצגים כראוי
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+        // וידוא שהתוכן של הקישור אינו מציג את ה-href
+        if (link.textContent.startsWith('http') && link.textContent === link.getAttribute('href')) {
+            // מחפש טקסט חלופי מתוך האלמנט ההורה
+            const parentText = link.parentElement.textContent.replace(link.textContent, '').trim();
+            if (parentText) {
+                const domain = new URL(link.href).hostname.replace('www.', '');
+                link.textContent = domain;
+            }
+        }
+        
+        // וידוא שיש טקסט באלמנט
+        if (!link.textContent.trim()) {
+            const domain = new URL(link.href).hostname.replace('www.', '');
+            link.textContent = domain;
+        }
+        
+        // פתיחת קישורים חיצוניים בחלון חדש אם אין כבר מאפיין target
+        if (!link.getAttribute('target')) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        }
+    });
 } 
