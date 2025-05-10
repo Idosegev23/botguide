@@ -22,37 +22,13 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "support-bot.js"
-    },
-    {
-      "src": "/chat",
-      "dest": "support-bot.js"
-    },
-    {
-      "src": "/",
-      "dest": "index.html"
-    },
-    {
-      "src": "/(.+\\.js)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.+\\.css)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
-    }
-  ],
   "rewrites": [
-    { "source": "/chat", "destination": "/public/index.html" },
-    { "source": "/api/chat", "destination": "/api/support-bot.js" },
-    { "source": "/styles.css", "destination": "/public/styles.css" },
-    { "source": "/script-bot.js", "destination": "/public/script.js" },
+    { "source": "/api/(.*)", "destination": "/support-bot.js" },
+    { "source": "/chat", "destination": "/index.html" },
+    { "source": "/api/chat", "destination": "/support-bot.js" },
+    { "source": "/styles.css", "destination": "/style.css" },
+    { "source": "/script-bot.js", "destination": "/script.js" },
+    { "source": "/public/(.*)", "destination": "/public/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 } 
