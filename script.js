@@ -613,4 +613,195 @@ document.addEventListener('DOMContentLoaded', function() {
     floatingChatContainer.addEventListener('click', (e) => {
         e.stopPropagation();
     });
+
+    // Dark Mode Toggle
+    function initDarkMode() {
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.className = 'dark-mode-toggle';
+        darkModeToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+        darkModeToggle.setAttribute('aria-label', 'החלף מצב תצוגה');
+        darkModeToggle.setAttribute('title', 'החלף מצב תצוגה');
+        document.body.appendChild(darkModeToggle);
+
+        // Check for saved preference
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateDarkModeIcon(true);
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeIcon(isDark);
+        });
+    }
+
+    function updateDarkModeIcon(isDark) {
+        const darkModeToggle = document.querySelector('.dark-mode-toggle');
+        if (isDark) {
+            darkModeToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+        } else {
+            darkModeToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+        }
+    }
+
+    // Intersection Observer for fade-in animations
+    function initScrollAnimations() {
+        const fadeElems = document.querySelectorAll('.step-section, .hero-section h1, .hero-subtitle, .hero-features, .hero-buttons');
+        
+        fadeElems.forEach(elem => {
+            elem.classList.add('fade-in-section');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        fadeElems.forEach(elem => {
+            observer.observe(elem);
+        });
+    }
+
+    // Smooth anchor scrolling
+    function initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
+    // Active menu highlighting
+    function initActiveMenu() {
+        const sections = document.querySelectorAll('.step-section');
+        const navItems = document.querySelectorAll('.anchor-nav a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // Mobile menu toggle
+    function initMobileMenu() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNav = document.querySelector('.main-nav');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                mainNav.classList.toggle('active');
+            });
+        
+            // Close menu when clicking on a link
+            document.querySelectorAll('.main-nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+        }
+    }
+
+    // Back to top button
+    function initBackToTop() {
+        const backToTop = document.createElement('button');
+        backToTop.className = 'back-to-top';
+        backToTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+        backToTop.setAttribute('aria-label', 'חזרה לראש הדף');
+        backToTop.setAttribute('title', 'חזרה לראש הדף');
+        document.body.appendChild(backToTop);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // הפעלת האקורדיון
+    function initAccordion() {
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            
+            header.addEventListener('click', () => {
+                // בדיקה אם זה האייטם שכבר פתוח
+                const isOpen = item.classList.contains('active');
+                
+                // סגירת כל האייטמים
+                accordionItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // פתיחת האייטם הנוכחי (אם הוא היה סגור)
+                if (!isOpen) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // טיפול בכפתור הצ'אט
+    function initChatButton() {
+        const chatButton = document.querySelector('.chat-bubble');
+        
+        if (chatButton) {
+            chatButton.addEventListener('click', () => {
+                // פה אפשר לשלב פתיחת חלון צ'אט או הפנייה למספר וואטסאפ
+                // לדוגמה: window.open('https://wa.me/972XXXXXXXXX', '_blank');
+                alert('צור קשר עם המומחים שלנו בוואטסאפ לקבלת סיוע נוסף!');
+            });
+        }
+    }
+
+    initDarkMode();
+    initScrollAnimations();
+    initSmoothScroll();
+    initActiveMenu();
+    initMobileMenu();
+    initBackToTop();
+    initAccordion();
+    initChatButton();
 }); 
