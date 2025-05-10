@@ -17,11 +17,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const mainNav = document.querySelector('.main-nav');
+    const body = document.body;
+    
+    // יצירת מסך כהה עבור התפריט הנייד
+    const menuOverlay = document.createElement('div');
+    menuOverlay.className = 'menu-overlay';
+    body.appendChild(menuOverlay);
     
     if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            this.classList.toggle('active');
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
             mainNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            
+            // נעילת גלילה כשהתפריט פתוח
+            if (mainNav.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+        
+        // סגירת התפריט בלחיצה על המסך האפור
+        menuOverlay.addEventListener('click', () => {
+            mainNav.classList.remove('active');
+            menuToggle.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            body.style.overflow = '';
+        });
+    
+        // סגירת התפריט בלחיצה על קישור
+        document.querySelectorAll('.main-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                menuToggle.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                body.style.overflow = '';
+            });
         });
     }
     
@@ -44,10 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // Add active class to the clicked link
-                document.querySelectorAll('.anchor-nav a, .main-nav a').forEach(link => {
+                document.querySelectorAll('.main-nav a').forEach(link => {
                     link.classList.remove('active');
                 });
-                document.querySelectorAll(`.anchor-nav a[href="${targetId}"], .main-nav a[href="${targetId}"]`).forEach(link => {
+                document.querySelectorAll(`.main-nav a[href="${targetId}"]`).forEach(link => {
                     link.classList.add('active');
                 });
                 
@@ -97,50 +129,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Highlight current section in anchor navigation
     function highlightCurrentSection() {
-        const sections = [
-            '#step1',
-            '#step2',
-            '#step3',
-            '#step4',
-            '#step5',
-            '#tips',
-            '#intro',
-            '#openai',
-            '#make',
-            '#greenapi',
-            '#expansion'
-        ];
-        
-        const scrollPosition = window.scrollY + window.innerHeight / 3;
-        
-        let currentSection = null;
-        
-        sections.forEach(sectionId => {
-            const section = document.querySelector(sectionId);
-            if (section) {
-                const sectionTop = section.offsetTop - 100; // Account for sticky header
-                const sectionBottom = sectionTop + section.offsetHeight;
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                    currentSection = sectionId;
-                    
-                    // Add subtle animation to the current section
-                    section.classList.add('active-section');
-                } else {
-                    const inactiveSection = document.querySelector(sectionId);
-                    if (inactiveSection) {
-                        inactiveSection.classList.remove('active-section');
-                    }
-                }
-            }
-        });
-        
-        document.querySelectorAll('.anchor-nav a, .main-nav a').forEach(anchor => {
-            anchor.classList.remove('active');
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            const scrollY = window.pageYOffset;
             
-            if (currentSection && anchor.getAttribute('href') === currentSection) {
-                anchor.classList.add('active');
-            }
+            sections.forEach(current => {
+                const sectionHeight = current.offsetHeight;
+                const sectionTop = current.offsetTop - 100;
+                const sectionId = current.getAttribute('id');
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelectorAll('.main-nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    document.querySelectorAll(`.main-nav a[href="#${sectionId}"]`).forEach(link => {
+                        link.classList.add('active');
+                    });
+                }
+            });
         });
     }
     
@@ -674,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Smooth anchor scrolling
     function initSmoothScroll() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('.main-nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
@@ -691,22 +697,57 @@ document.addEventListener('DOMContentLoaded', function() {
     // Active menu highlighting
     function initActiveMenu() {
         const sections = document.querySelectorAll('.step-section');
-        const navItems = document.querySelectorAll('.anchor-nav a');
+        const navItems = document.querySelectorAll('.main-nav a');
         
-        window.addEventListener('scroll', () => {
-            let current = '';
+        function highlightMenuItems() {
+            let currentSection = '';
+            const scrollPosition = window.scrollY;
+            
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
+                const sectionTop = section.offsetTop - 150;
                 const sectionHeight = section.clientHeight;
-                if (scrollY >= sectionTop - 150) {
-                    current = section.getAttribute('id');
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    currentSection = sectionId;
                 }
             });
-
+            
             navItems.forEach(item => {
                 item.classList.remove('active');
-                if (item.getAttribute('href') === `#${current}`) {
+                const href = item.getAttribute('href');
+                if (href && href.substring(1) === currentSection) {
                     item.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightMenuItems);
+        window.addEventListener('load', highlightMenuItems);
+        
+        // תגובת קליק טובה יותר
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId && targetId !== '#') {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        const offset = 100; // מרווח מראש העמוד
+                        const targetPosition = targetSection.offsetTop - offset;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // עדכון URL (אופציונלי)
+                        history.pushState(null, '', targetId);
+                        
+                        // הסרת הפוקוס מהקישור
+                        this.blur();
+                    }
                 }
             });
         });
@@ -716,18 +757,42 @@ document.addEventListener('DOMContentLoaded', function() {
     function initMobileMenu() {
         const menuToggle = document.querySelector('.menu-toggle');
         const mainNav = document.querySelector('.main-nav');
+        const body = document.body;
+        
+        // יצירת מסך כהה עבור התפריט הנייד
+        const menuOverlay = document.createElement('div');
+        menuOverlay.className = 'menu-overlay';
+        body.appendChild(menuOverlay);
         
         if (menuToggle) {
             menuToggle.addEventListener('click', () => {
                 menuToggle.classList.toggle('active');
                 mainNav.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
+                
+                // נעילת גלילה כשהתפריט פתוח
+                if (mainNav.classList.contains('active')) {
+                    body.style.overflow = 'hidden';
+                } else {
+                    body.style.overflow = '';
+                }
+            });
+            
+            // סגירת התפריט בלחיצה על המסך האפור
+            menuOverlay.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                menuToggle.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                body.style.overflow = '';
             });
         
-            // Close menu when clicking on a link
+            // סגירת התפריט בלחיצה על קישור
             document.querySelectorAll('.main-nav a').forEach(link => {
                 link.addEventListener('click', () => {
                     mainNav.classList.remove('active');
                     menuToggle.classList.remove('active');
+                    menuOverlay.classList.remove('active');
+                    body.style.overflow = '';
                 });
             });
         }
