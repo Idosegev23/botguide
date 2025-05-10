@@ -5,18 +5,19 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-wrap: wrap;
 }
 
 .anchor-nav li {
-    margin: 0 10px;
+    margin: 5px 10px;
 }
 
 .anchor-nav a {
     text-decoration: none;
-    color: #333;
+    color: #2c3e50;
     font-weight: 600;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 10px 18px;
+    border-radius: 30px;
     transition: all 0.3s ease;
     display: block;
 }
@@ -25,6 +26,8 @@
 .anchor-nav a.active {
     background-color: #4CAF50;
     color: white;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
 }
 
 /* Tips section styling */
@@ -34,20 +37,71 @@
 
 #tips h3 {
     color: #2c3e50;
-    margin-top: 25px;
-    font-size: 1.4rem;
+    margin-top: 30px;
+    font-size: 1.5rem;
+    position: relative;
+    padding-right: 15px;
+}
+
+#tips h3::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 24px;
+    background-color: #2196F3;
+    border-radius: 3px;
 }
 
 #tips ul {
-    padding-right: 20px;
+    padding-right: 25px;
+    margin-bottom: 25px;
+}
+
+#tips li {
+    margin-bottom: 12px;
+    position: relative;
+    line-height: 1.7;
+}
+
+#tips ul li::before {
+    content: '•';
+    color: #4CAF50;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-right: -1em;
+    position: absolute;
+    right: -20px;
 }
 
 #tips .tip {
     background-color: #e3f2fd;
     border-right: 5px solid #2196F3;
-    padding: 15px;
-    margin: 20px 0;
-    border-radius: 4px;
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#tips .tip::before {
+    content: '💡';
+    position: absolute;
+    right: -12px;
+    top: -12px;
+    background: #2196F3;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Expansion section styling */
@@ -57,8 +111,22 @@
 
 #step5 h3 {
     color: #673AB7;
-    margin-top: 25px;
-    font-size: 1.4rem;
+    margin-top: 30px;
+    font-size: 1.5rem;
+    position: relative;
+    padding-right: 15px;
+}
+
+#step5 h3::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 24px;
+    background-color: #673AB7;
+    border-radius: 3px;
 }
 
 #step5 .image-placeholder {
@@ -67,7 +135,134 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px 0;
+    margin: 25px 0;
     border-radius: 8px;
     color: #616161;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#step5 .image-placeholder:hover {
+    background-color: #d5d5d5;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Step numbers for numbered sections */
+.step-section[id^="step"] {
+    position: relative;
+}
+
+.step-section[id^="step"]::before {
+    content: attr(id);
+    content: "שלב " attr(id);
+    font-size: 14px;
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+}
+
+#step1::before { content: "שלב 1"; }
+#step2::before { content: "שלב 2"; }
+#step3::before { content: "שלב 3"; }
+#step4::before { content: "שלב 4"; }
+#step5::before { content: "שלב 5"; }
+#tips::before { 
+    content: "טיפים"; 
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background-color: #FF9800;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Link Effects */
+.main-nav a {
+    position: relative;
+    overflow: hidden;
+}
+
+.main-nav a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(76, 175, 80, 0.1);
+    transition: all 0.3s ease;
+    z-index: -1;
+    border-radius: 5px;
+}
+
+.main-nav a:hover::before {
+    width: 100%;
+}
+
+/* Call to Action Section enhancement */
+.cta-section .cta-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section .cta-button::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    top: 0;
+    right: -100px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-15deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {right: -100px;}
+    20% {right: 100%;}
+    100% {right: 100%;}
+}
+
+/* Code blocks */
+code {
+    background-color: #f5f5f5;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #e91e63;
+}
+
+pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 20px 0;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer enhancement */
+.site-footer {
+    position: relative;
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #4CAF50, #2196F3);
 } 
