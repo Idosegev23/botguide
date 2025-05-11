@@ -147,11 +147,27 @@ img {
     align-items: center;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+}
+
 .logo h1 {
     font-size: 28px;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 0;
+}
+
+.logo-image {
+    max-height: 50px;
+    width: auto;
+    display: block;
+    transition: var(--transition);
+}
+
+.logo-image:hover {
+    transform: scale(1.05);
 }
 
 .main-nav {
@@ -703,6 +719,10 @@ img {
     
     .logo {
         flex: 1;
+    }
+    
+    .logo-image {
+        max-height: 40px;
     }
     
     .menu-toggle {
