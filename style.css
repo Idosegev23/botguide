@@ -723,6 +723,7 @@ img {
     
     .logo-image {
         max-height: 80px;
+        min-height: 80px;
     }
     
     .menu-toggle {
