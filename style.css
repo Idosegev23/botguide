@@ -160,8 +160,11 @@ img {
 }
 
 .logo-image {
-    max-height: 50px;
+    max-height: 100px;
+    min-height: 100px;
+    max-width: 260px;
     width: auto;
+    height: auto;
     display: block;
     transition: var(--transition);
 }
